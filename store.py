@@ -77,5 +77,5 @@ if __name__ == "__main__":
 
     best_buy = Store(available_products)
     store_products = best_buy.get_all_products()
-    print("Total quantity in store:", best_buy.get_total_quantity())
+    print(f"Total quantity in store:, {best_buy.get_total_quantity()} items")
     print("Total cost of order:", best_buy.order([(store_products[0], 1), (store_products[1], 2)]))
