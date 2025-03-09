@@ -13,6 +13,8 @@ class Product:
         return self.quantity
 
     def set_quantity(self, quantity):
+        if quantity < 0:
+            raise ValueError("Quantity cannot be negative")
         self.quantity = quantity
         if self.quantity == 0:
             self.deactivate()
@@ -21,17 +23,17 @@ class Product:
         return self.active
 
     def activate(self):
-       self.active = True
+        self.active = True
 
     def deactivate(self):
         self.active = False
 
     def show(self) -> str:
-        return f"{self.name}, Price: {self.price}, Quantity: {self.quantify}"
+        return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}"
 
     def buy(self, quantity) -> float:
         if quantity <= 0:
-            raise ValueError("Quantity must grater than 0")
+            raise ValueError("Quantity must be greater than 0")
         if quantity > self.quantity:
             raise ValueError("Not enough stock available")
 
@@ -42,3 +44,6 @@ class Product:
 if __name__ == '__main__':
     bose = Product("Bose QuietComfort Earbuds", price=250, quantity=500)
     mac = Product("MacBook Air M2", price=1450, quantity=100)
+
+    print(bose.show())
+    print(mac.show())

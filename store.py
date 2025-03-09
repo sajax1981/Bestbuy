@@ -1,22 +1,19 @@
 import products
 
+
 class Store:
-    def __init__(self, products):
-        self.products =[]
-        self.total_quantity = 0
+    def __init__(self, product_list):
+        self.products = product_list
 
     def add_product(self, product):
         self.products.append(product)
-        self.total_quantity += product.get_quantity()
 
     def remove_product(self, product):
         if product in self.products:
             self.products.remove(product)
-            self.total_quantity -= product.get_quantity()
 
     def get_total_quantity(self) -> int:
-        total_quantity = sum(p.get_quantity() for p in self.products)
-        return total_quantity
+        return sum(p.get_quantity() for p in self.products)
 
     def get_all_products(self):
         return [p for p in self.products if p.is_active()]
@@ -26,19 +23,21 @@ class Store:
         for product, quantity in shopping_list:
             if quantity > product.get_quantity():
                 raise ValueError(f"Not enough stock for {product.name}.")
-            total_cost += product.buy(quantity)
+            # Deduct quantity and calculate cost
+            product.set_quantity(product.get_quantity() - quantity)
+            total_cost += product.price * quantity
         return total_cost
 
+
 if __name__ == "__main__":
-    # Create some Product instances
-    bose = products.Product("Bose QuietComfort Earbuds", price=250, quantity=500)
-    mac = products.Product("MacBook Air M2", price=1450, quantity=100)
+    available_products = [
+        products.Product("MacBook Air M2", price=1450, quantity=100),
+        products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
+        products.Product("Google Pixel 7", price=500, quantity=250),
+    ]
 
-    # Create the Store instance with initial products
-    best_buy = Store([bose, mac])
+    best_buy = Store(available_products)
+    store_products = best_buy.get_all_products()
 
-    # Order example with a shopping list: 5 Bose Earbuds, 30 MacBooks, and 10 more Bose Earbuds
-    price = best_buy.order([(bose, 5), (mac, 30), (bose, 10)])
-
-    print(f"Order cost: {price} dollars.")
-
+    print("Total quantity in store:", best_buy.get_total_quantity())
+    print("Total cost of order:", best_buy.order([(store_products[0], 1), (store_products[1], 2)]))
