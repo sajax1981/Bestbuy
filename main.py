@@ -17,8 +17,8 @@ def start(store_obj):
     :param store_obj: An instance of the Store class.
     """
     while True:
-        print("\nStore Menu
-        print("\n----------")
+        print("\nStore Menu")
+        print("----------")
         print("1. List all products in store")
         print("2. Show total amount in store")
         print("3. Make an order")
