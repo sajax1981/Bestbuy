@@ -1,7 +1,20 @@
+"""
+Test suite for the Product class in the products module.
+"""
+
 import pytest
 import products
 
+
 def test_product_store():
+    """
+    Test various functionalities of the Product class, including:
+    - Ordering a quantity too large
+    - A product running out of stock
+    - Ordering a valid quantity
+    - Creating products with invalid parameters
+    """
+
     # Create test products
     product1 = products.Product("MacBook Air M2", price=1450, quantity=100)
     product2 = products.Product("Bose QuietComfort Earbuds", price=250, quantity=500)
