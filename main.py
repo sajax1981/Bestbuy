@@ -11,6 +11,11 @@ best_buy = store.Store(product_list)
 
 
 def start(store_obj):
+    """
+    Starts the user interface for managing the store.
+
+    :param store_obj: An instance of the Store class.
+    """
     while True:
         print("\nStore Menu")
         print("----------")
