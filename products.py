@@ -2,7 +2,6 @@ class Product:
     """
     Represents a product in an inventory system with a name, price, quantity, and active status.
     """
-
     def __init__(self, name: str, price: float, quantity: int):
         """
         Initializes a Product instance.

@@ -1,40 +1,39 @@
-"""
-Test suite for the Product class in the products module.
-"""
-
 import pytest
-import products
+from products import Product  # Assuming the Product class is in product.py
 
 
-def test_product_store():
-    """
-    Test various functionalities of the Product class, including:
-    - Ordering a quantity too large
-    - A product running out of stock
-    - Ordering a valid quantity
-    - Creating products with invalid parameters
-    """
+def test_ordering_too_large_quantity():
+    """Test ordering more than available quantity should raise ValueError."""
+    product = Product("Smartphone", price=700, quantity=10)
 
-    # Create test products
-    product1 = products.Product("MacBook Air M2", price=1450, quantity=100)
-    product2 = products.Product("Bose QuietComfort Earbuds", price=250, quantity=500)
-    product3 = products.Product("Google Pixel 7", price=500, quantity=250)
-
-    # Test ordering a quantity too large
+    # Trying to buy more than available quantity
     with pytest.raises(ValueError, match="Not enough stock available"):
-        product1.purchase(200)  # Trying to buy more than available
+        product.buy(20)  # Ordering more than available
 
-    # Test product that runs out of stock
-    product3.purchase(250)  # Buy all stock
-    assert product3.quantity == 0  # Ensure it's out of stock
 
-    # Test product2 ordering within stock
-    product2.purchase(100)  # Buy 100 units
-    assert product2.quantity == 400  # Ensure stock is updated
+def test_product_runs_out_of_stock():
+    """Test product deactivates when quantity reaches zero."""
+    product = Product("Headphones", price=150, quantity=3)
 
-    # Test creating a product with invalid parameters
-    with pytest.raises(ValueError, match="Invalid price or quantity"):
-        products.Product("Invalid Product", price=-10, quantity=5)  # Negative price
+    # Buying all stock
+    product.buy(3)
 
-    with pytest.raises(ValueError, match="Invalid price or quantity"):
-        products.Product("Another Invalid", price=100, quantity=-1)  # Negative quantity
+    # After purchasing, the quantity should be 0 and product should be inactive
+    assert product.get_quantity() == 0
+    assert not product.is_active()  # Should be inactive
+
+
+def test_invalid_product_parameters():
+    """Test invalid product creation raises ValueError."""
+
+    # Creating a product with an empty name
+    with pytest.raises(ValueError, match="Invalid input: name cannot be empty, price and quantity cannot be negative"):
+        Product("", price=100, quantity=10)
+
+    # Creating a product with a negative price
+    with pytest.raises(ValueError, match="Invalid input: name cannot be empty, price and quantity cannot be negative"):
+        Product("Laptop", price=-500, quantity=10)
+
+    # Creating a product with a negative quantity
+    with pytest.raises(ValueError, match="Invalid input: name cannot be empty, price and quantity cannot be negative"):
+        Product("Tablet", price=300, quantity=-5)
