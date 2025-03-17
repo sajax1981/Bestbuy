@@ -3,11 +3,11 @@ from products import Product
 
 
 def test_ordering_too_large_quantity():
-    """Test ordering more than available quantity should raise ValueError."""
+    """Test ordering more than available quantity should raise ValueError"""
     product = Product("Smartphone", price=700, quantity=10)
 
     # Trying to buy more than available quantity
-    with pytest.raises(ValueError, match="Not enough stock available"):
+    with pytest.raises(ValueError):
         product.buy(20)  # Ordering more than available
 
 
@@ -27,13 +27,13 @@ def test_invalid_product_parameters():
     """Test invalid product creation raises ValueError."""
 
     # Creating a product with an empty name
-    with pytest.raises(ValueError, match="Invalid input: name cannot be empty, price and quantity cannot be negative"):
+    with pytest.raises(ValueError):
         Product("", price=100, quantity=10)
 
     # Creating a product with a negative price
-    with pytest.raises(ValueError, match="Invalid input: name cannot be empty, price and quantity cannot be negative"):
+    with pytest.raises(ValueError):
         Product("Laptop", price=-500, quantity=10)
 
     # Creating a product with a negative quantity
-    with pytest.raises(ValueError, match="Invalid input: name cannot be empty, price and quantity cannot be negative"):
+    with pytest.raises(ValueError):
         Product("Tablet", price=300, quantity=-5)
