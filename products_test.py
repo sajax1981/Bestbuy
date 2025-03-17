@@ -1,5 +1,5 @@
 import pytest
-from products import Product  # Assuming the Product class is in product.py
+from products import Product
 
 
 def test_ordering_too_large_quantity():
